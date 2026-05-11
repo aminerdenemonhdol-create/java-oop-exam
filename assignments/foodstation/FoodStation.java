@@ -2,29 +2,50 @@ import java.util.ArrayList;
 
 public class FoodStation {
 
-    // TODO: private талбаруудыг зарлана уу
-    // - ner (String)
-    // - menu (ArrayList<String>) — хоолны нэрсийн жагсаалт
-    // - uneNuud (ArrayList<Integer>) — хоолны үнүүдийн жагсаалт (menu-тэй ижил индекстэй)
-    // - niitOrlogo (int, анхны утга 0)
+    private String ner;
+    private ArrayList<String> menu;
+    private ArrayList<Integer> uneNuud;
+    private int niitOrlogo;
 
-    // TODO: Constructor бичнэ үү
-    // FoodStation(String ner)
-    // - menu болон uneNuud-ийг шинэ ArrayList-ээр үүсгэнэ
+    public FoodStation(String ner) {
+        this.ner = ner;
+        this.menu = new ArrayList<>();
+        this.uneNuud = new ArrayList<>();
+        this.niitOrlogo = 0;
+    }
 
-    // TODO: tsesNemeh(String hool, int une) method бичнэ үү
-    // - menu-д хоолны нэр, uneNuud-д үнийг нэмнэ
+    public void tsesNemeh(String hool, int une) {
+        menu.add(hool);
+        uneNuud.add(une);
+    }
 
-    // TODO: zahialga(String hool) method бичнэ үү
-    // - menu.indexOf(hool) ашиглан хоол хайна
-    // - Олдохгүй бол "❌ Цэсэнд байхгүй" буцаана
-    // - Олдвол niitOrlogo-д үнийг нэмж, "✅ hool бэлтгэж байна" буцаана
+    public String zahialga(String hool) {
+        int idx = menu.indexOf(hool);
+        if (idx == -1) {
+            return "❌ Цэсэнд байхгүй";
+        }
+        niitOrlogo += uneNuud.get(idx);
+        return "✅ " + hool + " бэлтгэж байна";
+    }
 
-    // TODO: hamgiinHvnstei() method бичнэ үү
-    // - uneNuud дотроос хамгийн их утгыг олж, тухайн индексийн хоолны нэрийг буцаана
-    // - Хэрэв цэс хоосон бол "Цэс хоосон" буцаана
+    public String hamgiinHvnstei() {
+        if (menu.isEmpty()) {
+            return "Цэс хоосон";
+        }
+        int max = uneNuud.get(0);
+        int maxIdx = 0;
+        for (int i = 1; i < uneNuud.size(); i++) {
+            int u = uneNuud.get(i);
+            if (u > max) {
+                max = u;
+                maxIdx = i;
+            }
+        }
+        return menu.get(maxIdx);
+    }
 
-    // TODO: toString() method бичнэ үү
-    // Формат: "🍜 [нэр] | Цэс: X хоол | Орлого: Y₮"
-
+    @Override
+    public String toString() {
+        return "🍜 " + ner + " | Цэс: " + menu.size() + " хоол | Орлого: " + niitOrlogo + "₮";
+    }
 }

@@ -1,28 +1,41 @@
 public class SpaceShip {
 
-    // TODO: private талбаруудыг зарлана уу
-    // - ner (String)
-    // - tulsh (int, анхны утга 100)
-    // - zorchigch (int, анхны утга 0)
-    // - km (double, анхны утга 0)
+    private String ner;
+    private int tulsh;
+    private int zorchigch;
+    private double km;
 
-    // TODO: Constructor бичнэ үү
-    // SpaceShip(String ner)
+    public SpaceShip(String ner) {
+        this.ner = ner;
+        this.tulsh = 100;
+        this.zorchigch = 0;
+        this.km = 0;
+    }
 
-    // TODO: zorchigchAvah(int too) method бичнэ үү
-    // - Зорчигч нэмнэ
-    // - Хэрэв нийт зорчигч 10-аас хэтэрвэл "Багтаамж хэтэрлээ!" буцаана
-    // - Амжилттай бол "X зорчигч нэмэгдлээ" буцаана
+    public String zorchigchAvah(int too) {
+        if (zorchigch + too > 10) {
+            return "Багтаамж хэтэрлээ!";
+        }
+        zorchigch += too;
+        return too + " зорчигч нэмэгдлээ";
+    }
 
-    // TODO: nisleg(double zai) method бичнэ үү
-    // - Түлшний зарцуулалт: zai * 0.5
-    // - Хэрэв түлш хүрэлцэхгүй бол "Түлш дутуу!" буцаана
-    // - Амжилттай бол km нэмэгдэж, "Нислэг амжилттай! X км нисэв" буцаана
+    public String nisleg(double zai) {
+        double need = zai * 0.5;
+        if (tulsh < need) {
+            return "Түлш " + "\u0434\u0443\u0442\u0443\u0443!";
+        }
+        tulsh -= (int) need;
+        km += zai;
+        return "Нислэг амжилттай! " + zai + " км нисэв";
+    }
 
-    // TODO: tulshTsenegleh(int hemjee) method бичнэ үү
-    // - Түлш нэмнэ, гэхдээ 100-аас хэтрэхгүй (Math.min ашиглах)
+    public void tulshTsenegleh(int hemjee) {
+        tulsh = Math.min(100, tulsh + hemjee);
+    }
 
-    // TODO: toString() method бичнэ үү
-    // Формат: "🚀 [нэр] | Түлш: X% | Зорчигч: Y | Нийт: Z км"
-
+    @Override
+    public String toString() {
+        return "🚀 " + ner + " | Түлш: " + tulsh + "% | Зорчигч: " + zorchigch + " | Нийт: " + km + " км";
+    }
 }

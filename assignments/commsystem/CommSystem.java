@@ -2,37 +2,58 @@ import java.util.ArrayList;
 
 public class CommSystem {
 
-    // TODO: private талбаруудыг зарлана уу
-    // - stationNer (String)
-    // - log (ArrayList<String>) — мессежүүдийн лог
-    // - signalHvch (int, анхны утга 100)
-    // - offline (boolean, анхны утга false)
+    private String stationNer;
+    private ArrayList<String> log;
+    private int signalHvch;
+    private boolean offline;
 
-    // TODO: Constructor бичнэ үү
-    // CommSystem(String stationNer)
-    // - log-ийг шинэ ArrayList-ээр үүсгэнэ
+    public CommSystem(String stationNer) {
+        this.stationNer = stationNer;
+        this.log = new ArrayList<>();
+        this.signalHvch = 100;
+        this.offline = false;
+    }
 
-    // TODO: ilgeeh(String hvleenAvagch, String mesg) method бичнэ үү
-    // - Хэрэв offline бол "📡 Офлайн!" буцаана
-    // - signalHvch -= 5
-    // - Хэрэв signalHvch < 10 бол автоматаар offline = true болгоно
-    // - log-д "→ hvleenAvagch: mesg" нэмнэ
-    // - "Илгээлээ: hvleenAvagch" буцаана
+    public String ilgeeh(String hvleenAvagch, String mesg) {
+        if (offline) {
+            return "📡 Офлайн!";
+        }
+        signalHvch -= 5;
+        if (signalHvch < 10) {
+            offline = true;
+        }
+        log.add("→ " + hvleenAvagch + ": " + mesg);
+        return "Илгээлээ: " + hvleenAvagch;
+    }
 
-    // TODO: hvleenAvah(String ilgeegch, String mesg) method бичнэ үү
-    // - log-д "← ilgeegch: mesg" нэмнэ
+    public void hvleenAvah(String ilgeegch, String mesg) {
+        log.add("← " + ilgeegch + ": " + mesg);
+    }
 
-    // TODO: signalSergemjuuleh() method бичнэ үү
-    // - signalHvch = 100
-    // - offline = false
+    public void signalSergemjuuleh() {
+        signalHvch = 100;
+        offline = false;
+    }
 
-    // TODO: logHarah(int n) method бичнэ үү
-    // - Сүүлийн n мессежийг буцаана
-    // - StringBuilder ашиглана
-    // - Мөр бүрийг шинэ мөрөөр тусгаарлана (\n)
-    // - Хэрэв n > log.size() бол бүх лог-ийг буцаана
+    public String logHarah(int n) {
+        if (log.isEmpty()) {
+            return "";
+        }
+        int take = Math.min(n, log.size());
+        int start = log.size() - take;
+        StringBuilder sb = new StringBuilder();
+        for (int i = start; i < log.size(); i++) {
+            if (i > start) {
+                sb.append('\n');
+            }
+            sb.append(log.get(i));
+        }
+        return sb.toString();
+    }
 
-    // TODO: toString() method бичнэ үү
-    // Формат: "📡 [нэр] [ONLINE/OFFLINE] Signal: X% | Лог: Y мессеж"
-
+    @Override
+    public String toString() {
+        String mode = offline ? "OFFLINE" : "ONLINE";
+        return "📡 " + stationNer + " [" + mode + "] Signal: " + signalHvch + "% | Лог: " + log.size() + " мессеж";
+    }
 }
